@@ -1,0 +1,14 @@
+asgiref
+certifi
+charset-normalizer
+Django
+django-cors-headers
+djangorestframework
+geographiclib
+geopy
+idna
+python-decouple
+python-dotenv
+requests
+sqlparse
+urllib3
