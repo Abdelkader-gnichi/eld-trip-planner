@@ -127,7 +127,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True  # Change for production
+ALLOWED_HOSTS = ["*"]
+CORS_ORIGIN_ALLOW_ALL = True  # Change for production
 
 # Rest Framework settings
 REST_FRAMEWORK = {

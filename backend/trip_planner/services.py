@@ -2,6 +2,7 @@ import requests
 import datetime
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+from django.utils import timezone
 from .models import Trip, RoutePoint, ELDLog
 
 class RouteCalculator:
@@ -42,7 +43,8 @@ class RouteCalculator:
         time_pickup_to_dropoff = distance_pickup_to_dropoff / self.average_speed
         
         # Starting time and current cycle hours
-        now = datetime.datetime.now()
+        # Use timezone-aware datetime
+        now = timezone.now()
         remaining_drive_time = self.driving_limit - self.trip.current_cycle_hours
         
         # Create route points
@@ -218,19 +220,18 @@ class RouteCalculator:
         )
     
     def get_nearest_city(self, coords):
-        """Get the name of the nearest city to the coordinates"""
         try:
             location = self.geolocator.reverse(f"{coords[0]}, {coords[1]}")
+            if location is None:
+                return "Unknown location"
             address = location.raw.get('address', {})
-            
-            # Try to get city or town name
             city = address.get('city') or address.get('town') or address.get('village') or "Unknown location"
             state = address.get('state') or ""
-            
             return f"{city}, {state}" if state else city
         except Exception as e:
             print(f"Reverse geocoding error: {e}")
             return "Unknown location"
+
 
 
 class ELDGenerator:
@@ -248,6 +249,13 @@ class ELDGenerator:
         days = {}
         
         for point in route_points:
+            # Ensure datetime objects are timezone-aware
+            if point.arrival_time and timezone.is_naive(point.arrival_time):
+                point.arrival_time = timezone.make_aware(point.arrival_time)
+            
+            if point.departure_time and timezone.is_naive(point.departure_time):
+                point.departure_time = timezone.make_aware(point.departure_time)
+            
             day = point.arrival_time.date()
             if day not in days:
                 days[day] = []
@@ -277,8 +285,12 @@ class ELDGenerator:
             )
             
             # Fill in activity periods
-            current_time = datetime.datetime.combine(day, datetime.time.min)
-            end_time = datetime.datetime.combine(day, datetime.time.max)
+            current_time = timezone.make_aware(
+                datetime.datetime.combine(day, datetime.time.min)
+            )
+            end_time = timezone.make_aware(
+                datetime.datetime.combine(day, datetime.time.max)
+            )
             
             for i, point in enumerate(points):
                 # Skip if arrival is on a different day
@@ -316,7 +328,11 @@ class ELDGenerator:
                     if rest_start != rest_end:
                         log.off_duty_periods.append([rest_start, rest_end])
                 
-                current_time = max(current_time, point.departure_time or point.arrival_time)
+                # Fix the comparison of datetimes here
+                if point.departure_time:
+                    current_time = max(current_time, point.departure_time)
+                else:
+                    current_time = max(current_time, point.arrival_time)
             
             # Fill in off-duty time at beginning and end of day if needed
             start_of_day = datetime.time.min.strftime("%H:%M")
