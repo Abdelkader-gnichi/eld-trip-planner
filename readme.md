@@ -51,7 +51,7 @@ The ELD Trip Planner is a comprehensive application designed to assist truck dri
 
     ```bash
     git clone https://github.com/Abdelkader-gnichi/eld-trip-planner.git
-    cd django-assessment
+    cd eld-trip-planner
     ```
 
 2.  **Create a Virtual Environment:**
