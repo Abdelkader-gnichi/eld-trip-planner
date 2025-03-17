@@ -50,17 +50,24 @@ The ELD Trip Planner is a comprehensive application designed to assist truck dri
 1.  **Create a Virtual Environment:**
 
     ```bash
+    git clone https://github.com/Abdelkader-gnichi/eld-trip-planner.git
+    cd django-assessment
+    ```
+
+2.  **Create a Virtual Environment:**
+
+    ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
 
-2.  **Install Dependencies:**
+3.  **Install Dependencies:**
 
     ```bash
     pip install -r requirements.txt
     ```
 
-3.  **Configure Environment Variables:**
+4.  **Configure Environment Variables:**
     Create a `.env` file in the root directory with the following variables:
 
     ```
@@ -68,19 +75,19 @@ The ELD Trip Planner is a comprehensive application designed to assist truck dri
     DEBUG=True
     ```
 
-4.  **Run Migrations:**
+5.  **Run Migrations:**
 
     ```bash
     python manage.py migrate
     ```
 
-5.  **Create a Superuser (Optional):**
+6.  **Create a Superuser (Optional):**
 
     ```bash
     python manage.py createsuperuser
     ```
 
-6.  **Run the Development Server:**
+7.  **Run the Development Server:**
 
     ```bash
     python manage.py runserver
