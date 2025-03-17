@@ -200,6 +200,13 @@ curl -X GET http://localhost:8000/api/trips/{id}/logs/
 *   Leaflet: For interactive maps
 *   React Router: For client-side routing
 
+## Demonstration Video
+
+
+https://github.com/user-attachments/assets/b33f7810-2139-4e15-b6a7-159408487178
+
+
+
 ## Contributing
 
 1.  Fork the repository.
