@@ -78,6 +78,7 @@ The ELD Trip Planner is a comprehensive application designed to assist truck dri
 5.  **Run Migrations:**
 
     ```bash
+    python manage.py makemigrations
     python manage.py migrate
     ```
 
