@@ -1,4 +1,3 @@
-```markdown
 # ELD Trip Planner - Backend and Frontend
 
 The ELD Trip Planner is a comprehensive application designed to assist truck drivers and fleet managers in planning trips while complying with Hours of Service (HOS) regulations. The application includes a Django REST Framework (DRF) backend for trip planning, route calculation, and ELD log generation, and a React frontend for visualizing trip details, routes, and logs.
@@ -138,7 +137,7 @@ curl -X POST http://localhost:8000/api/trips/ \
     "dropoff_location": "Dallas, TX",
     "current_cycle_hours": 2.5
   }'
-```
+
 
 **Get Trip Details**
 
